@@ -14,7 +14,7 @@ public class PlayerAimController : MonoBehaviour
     public GameObject Spine;
     public Vector3 SpineOffset;
     public bool IsFullyDrawn = false;
-    VirtualController virtualController;
+    PlayerController playerController;
     ThirdPersonCameraController cameraController;
 
     public float aimSwivelMultiplier;
@@ -37,7 +37,7 @@ public class PlayerAimController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        virtualController = gameObject.GetComponent<VirtualController>();
+        playerController = gameObject.GetComponent<PlayerController>();
         cameraController = gameObject.GetComponent<ThirdPersonCameraController>();
         InMeshArrow.SetActive(false);
     }
@@ -55,7 +55,7 @@ public class PlayerAimController : MonoBehaviour
 
     /// TODO: Animation here
     public void DetatchArrow(InputAction.CallbackContext context) {
-        if (!virtualController.isFireTapped) {
+        if (!playerController.isFireTapped) {
             InMeshArrow.GetComponent<ArrowController>().DisableBalancing();
             InMeshArrow.SetActive(false);
         }
@@ -63,7 +63,7 @@ public class PlayerAimController : MonoBehaviour
 
     // Not currently used
     public void DestroyArrow() {
-        if (!virtualController.isFireTapped) {
+        if (!playerController.isFireTapped) {
             Destroy(spawnedArrow);
         }
     }
@@ -102,14 +102,14 @@ public class PlayerAimController : MonoBehaviour
     }
 
     void manageCameraState() {
-        if (virtualController.isAimPressed) {
+        if (playerController.isAimPressed) {
             Crosshair.SetActive(true);
             if (!AimCamera.activeInHierarchy) {
                 MoveCamera.SetActive(false);
                 AimCamera.SetActive(true);
                 cameraController.CameraSwivelSensitivityModifier = aimSwivelMultiplier;
             }
-        } else if(!virtualController.isAimPressed && !MoveCamera.activeInHierarchy){
+        } else if(!playerController.isAimPressed && !MoveCamera.activeInHierarchy){
             Crosshair.SetActive(false);
             MoveCamera.SetActive(true);
             AimCamera.SetActive(false);
@@ -118,7 +118,7 @@ public class PlayerAimController : MonoBehaviour
     }
 
     private void LateUpdate() {
-        if (virtualController.isAimPressed) {
+        if (playerController.isAimPressed) {
             adjustSpine();
         }
     }

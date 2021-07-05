@@ -12,7 +12,7 @@ public class ThirdPersonCameraController : MonoBehaviour
     public float CameraSwivelSensitivity;
     public float CameraSwivelSensitivityModifier = 1.0f;
     public GameObject FollowTarget;
-    VirtualController virtualController;
+    PlayerController playerController;
     public CinemachineCameraOffset moveCameraOffset;
     // public CinemachineCameraOffset aimCameraOffset;
 
@@ -22,7 +22,7 @@ public class ThirdPersonCameraController : MonoBehaviour
     
     void Awake()
     {
-        virtualController = GetComponent<VirtualController>();
+        playerController = GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -33,8 +33,8 @@ public class ThirdPersonCameraController : MonoBehaviour
     }
     
     void cameraRotation() {
-        // Debug.Log(virtualController.CameraMovement);
-        var cameraMovement = virtualController.CameraMovement;
+        // Debug.Log(playerController.CameraMovement);
+        var cameraMovement = playerController.CameraMovement;
         var modifiedCameraSwivelSensitivity = CameraSwivelSensitivity * CameraSwivelSensitivityModifier;
 
         // var targetRotation = Mathf.Atan2(cameraMovement.x,cameraMovement.y) * Mathf.Rad2Deg * modifiedCameraSwivelSensitivity;
@@ -60,11 +60,11 @@ public class ThirdPersonCameraController : MonoBehaviour
     }
 
     void cameraTransformation() {
-        if (virtualController.CurrentMovement.x > 0) {
+        if (playerController.CurrentMovement.x > 0) {
             moveCameraOffset.m_Offset = Vector3.SmoothDamp(moveCameraOffset.m_Offset, rightOffset, ref CameraSmoothOffsetVelocity, CameraSmoothOffsetTime,10f);
-        } else if (virtualController.CurrentMovement.x < 0) {
+        } else if (playerController.CurrentMovement.x < 0) {
             moveCameraOffset.m_Offset = Vector3.SmoothDamp(moveCameraOffset.m_Offset, leftOffset, ref CameraSmoothOffsetVelocity, CameraSmoothOffsetTime,10f);;
-        } else if (virtualController.CurrentMovement.x == 0) {
+        } else if (playerController.CurrentMovement.x == 0) {
             moveCameraOffset.m_Offset = Vector3.SmoothDamp(moveCameraOffset.m_Offset, centeredOffset, ref CameraSmoothOffsetVelocity, CameraSmoothOffsetTime,10f);;
         }
     }

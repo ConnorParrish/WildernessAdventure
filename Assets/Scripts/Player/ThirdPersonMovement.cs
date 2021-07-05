@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class ThirdPersonMovement : MonoBehaviour
 {
     CharacterController characterController;
-    VirtualController virtualController;
+    PlayerController playerController;
     ThirdPersonCameraController cameraController;
 
     public Transform Cam;
@@ -30,7 +30,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     private void Awake() {
         characterController = GetComponent<CharacterController>();
-        virtualController = GetComponent<VirtualController>();
+        playerController = GetComponent<PlayerController>();
         
         animator = GetComponent<Animator>();
         isWalkingHash = Animator.StringToHash("isWalking");
@@ -43,11 +43,11 @@ public class ThirdPersonMovement : MonoBehaviour
 
     void Update()
     {
-        var currentMovement = virtualController.CurrentMovement;
+        var currentMovement = playerController.CurrentMovement;
 
         if (characterController.isGrounded) {
             vSpeed = -.05f;
-            if (virtualController.isJumpPressed) {
+            if (playerController.isJumpPressed) {
                 vSpeed = JumpSpeed;
             }
         }
@@ -63,7 +63,7 @@ public class ThirdPersonMovement : MonoBehaviour
         // Prevent rotating FollowTarget
         // cameraController.DetachFromParent();
         cameraController.FollowTarget.transform.parent = null;
-        if (!virtualController.isAimPressed) {
+        if (!playerController.isAimPressed) {
             if (currentMovement.magnitude >= 0.1f) {
                 angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref TurnSmoothVelocity, TurnSmoothTime);
                 transform.rotation = Quaternion.Euler(0f, angle, 0);
@@ -80,7 +80,7 @@ public class ThirdPersonMovement : MonoBehaviour
         moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
         if (currentMovement.magnitude >= 0.1f || !characterController.isGrounded) {
             var movementSpeed = Speed;
-            if (virtualController.isRunPressed) {
+            if (playerController.isRunPressed) {
                 movementSpeed *= RunMultiplier;
             }
             var velocity = moveDir.normalized * movementSpeed * Time.deltaTime;

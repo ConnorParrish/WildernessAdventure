@@ -1942,13 +1942,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6076289544906213661}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d81aa7fbfdaa4df42866edc7e5ab3086, type: 3}
+  m_Script: {fileID: 11500000, guid: 113f650c12fc7ae4e983e0e8acdb0127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SmoothingVelocity: 0
-  SmoothingTime: 0
-  MaxVelocity: 0
-  AimLayerWeight: 0
+  SmoothingTime: 0.25
+  MaxVelocity: 10
+  AimLayerWeight: 1
 --- !u!143 &6076289544906213657
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1976,20 +1976,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 6076289544906213661}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3956e19245ee1ad4fbfb7c864fbcf1d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 205777f2086a2c84c83cd0114f2acf90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 1373939684258353801}
-  CameraMovement: {x: 0, y: 0, z: 0}
   CurrentMovement: {x: 0, y: 0, z: 0}
-  FireCooldown: 2
-  FireOnCooldown: 0
-  MovementMultiplier: 2
+  MovementMultiplier: 0
   isMovementPressed: 0
   isRunPressed: 0
+  isJumpPressed: 0
+  CameraMovement: {x: 0, y: 0, z: 0}
   isAimPressed: 0
   isFireTapped: 0
-  isJumpPressed: 0
+  FireCooldown: 0
+  FireOnCooldown: 0
 --- !u!114 &6076289544906213659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2002,6 +2001,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ea81fcef40596740a8182c2cc495386, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Crosshair: {fileID: 0}
   AimCamera: {fileID: 0}
   MoveCamera: {fileID: 0}
   InMeshArrow: {fileID: 8710843005708389777}
