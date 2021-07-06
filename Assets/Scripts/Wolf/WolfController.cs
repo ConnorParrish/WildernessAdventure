@@ -5,21 +5,18 @@ using UnityEngine.AI;
 
 public class WolfController : VirtualController
 {
-    public float SlerpTime = 0.25f;
-    public NavMeshAgent navMeshAgent;
-    public GameObject NavTarget;
-    [Range(0,200f)]
-    public int UpdateInterval;
-    private int interval;
-    private bool doUpdate;
-
     public Vector3 relativeVelocity;
-    private Rigidbody rigidbody;
-    private Vector3 SpawnPoint;
+    public float ExtraRotationSpeed = 7f;
+    [Range(0,1f)]
+    public float VelocityDampener = 1f;
+    public GameObject NavTarget;
+    private NavMeshAgent navMeshAgent;
     private Vector2 currentMovementInput;
     void Awake() {
-        SpawnPoint = transform.position;
-        rigidbody = GetComponent<Rigidbody>();
+        navMeshAgent = GetComponentInChildren<NavMeshAgent>();
+        if (NavTarget) {
+            navMeshAgent.SetDestination(NavTarget.transform.position);
+        }
     }
 
     private void OnDrawGizmos() {
@@ -29,38 +26,23 @@ public class WolfController : VirtualController
     // Update is called once per frame
     void Update()
     {
-        // if (Reset) {
-        //     // navMeshAgent.enabled = false;
-        //     navMeshAgent.Warp(navMeshAgent.transform.InverseTransformPoint(Vector3.zero));
-        //     // transform.position = Vector3.zero;
-        //     // navMeshAgent.enabled = true;
-        //     Reset = false;
-        //     navMeshAgent.stoppingDistance = StoppingDistance;
-        //     // Debug.Break();
-        //     // Reset = false;
-        // }
     }
 
     private void FixedUpdate() {
-        // interval++;
-        // doUpdate = (interval % UpdateInterval) == 0;
-        // if (doUpdate) {
-            navMeshAgent.SetDestination(NavTarget.transform.position);
+        if (NavTarget) {
+            Vector3 lookRotation = navMeshAgent.steeringTarget - transform.position;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookRotation), ExtraRotationSpeed*Time.deltaTime);
+
+
             relativeVelocity =  transform.InverseTransformVector(navMeshAgent.velocity);
-            // var slerpedVelocity = Vector3.Slerp(rigidbody.velocity.normalized, relativeVelocity.normalized, SlerpTime);
-            // currentMovementInput = new Vector2(
-            //     slerpedVelocity.x,
-            //     slerpedVelocity.z);
+            // relativeVelocity += transform.InverseTransformVector(lookRotation);
+            // relativeVelocity *= VelocityDampener;
+            relativeVelocity /= navMeshAgent.speed *.5f;
             currentMovementInput = new Vector2(
-                relativeVelocity.x,
-                relativeVelocity.z);
+                relativeVelocity.x,//*ExtraRotationSpeed,
+                relativeVelocity.z);//*ExtraRotationSpeed);
 
             base.onMovementInput(currentMovementInput);
-            // if (Normalized) {
-            //     base.onMovementInput(currentMovementInput.normalized);
-            // } else if (Softened) {
-            //     base.onMovementInput(currentMovementInput*Softener);
-            // }
-        // }    
+        }
     }
 }
