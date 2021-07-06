@@ -12,7 +12,7 @@ public class ThirdPersonCameraController : MonoBehaviour
     public float CameraSwivelSensitivity;
     public float CameraSwivelSensitivityModifier = 1.0f;
     public GameObject FollowTarget;
-    PlayerController playerController;
+    VirtualController playerController;
     public CinemachineCameraOffset moveCameraOffset;
     // public CinemachineCameraOffset aimCameraOffset;
 
@@ -22,7 +22,7 @@ public class ThirdPersonCameraController : MonoBehaviour
     
     void Awake()
     {
-        playerController = GetComponent<PlayerController>();
+        playerController = GetComponent<VirtualController>();
     }
 
     // Update is called once per frame

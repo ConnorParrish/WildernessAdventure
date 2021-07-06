@@ -61,7 +61,7 @@ public class ThirdPersonMovement : MonoBehaviour
         targetAngle += Cam.eulerAngles.y;
 
         // Prevent rotating FollowTarget
-        // cameraController.DetachFromParent();
+
         cameraController.FollowTarget.transform.parent = null;
         if (!playerController.isAimPressed) {
             if (currentMovement.magnitude >= 0.1f) {

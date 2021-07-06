@@ -23,6 +23,8 @@ public static class Utilities
         return new Vector3(x,y,z);
     }
 
+    // public static float DotProduct(V)
+
     public static Vector3 MidPoint(
         Vector3 pointA,
         Vector3 pointB

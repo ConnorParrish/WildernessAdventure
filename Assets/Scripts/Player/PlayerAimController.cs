@@ -39,7 +39,7 @@ public class PlayerAimController : MonoBehaviour
     {
         playerController = gameObject.GetComponent<PlayerController>();
         cameraController = gameObject.GetComponent<ThirdPersonCameraController>();
-        InMeshArrow.SetActive(false);
+        // InMeshArrow.SetActive(false); // disable
     }
 
     /// TODO: Get animation to match smoothly with spawned arrow

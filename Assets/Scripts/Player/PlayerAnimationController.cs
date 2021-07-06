@@ -27,7 +27,7 @@ public class PlayerAnimationController : AnimationController
 
         mouseYHash = Animator.StringToHash("MouseY");
 
-        base.Initialize();
+        Initialize();
     }
 
     // Update is called once per frame
@@ -57,7 +57,7 @@ public class PlayerAnimationController : AnimationController
             }
             animator.SetLayerWeight(1, 0);
         }
-        base.Locomotion();
+        Locomotion(ref animator);
     }
 
     public void setIsDrawn(int isDrawn) {

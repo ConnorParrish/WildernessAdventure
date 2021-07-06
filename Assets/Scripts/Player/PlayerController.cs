@@ -7,7 +7,6 @@ using UnityEngine.InputSystem.Interactions;
 
 public class PlayerController : VirtualController
 {
-    public Vector3 CameraMovement;
     public bool isAimPressed;
     public bool isFireTapped;
     public float FireCooldown;
@@ -26,12 +25,12 @@ public class PlayerController : VirtualController
         playerInput.Player.Look.canceled += onCameraInput;
         playerInput.Player.Look.performed += onCameraInput;
 
-        playerInput.Player.Move.started += base.onMovementInput;
-        playerInput.Player.Move.canceled += base.onMovementInput;
-        playerInput.Player.Move.performed += base.onMovementInput;
+        playerInput.Player.Move.started += onMovementInput;
+        playerInput.Player.Move.canceled += onMovementInput;
+        playerInput.Player.Move.performed += onMovementInput;
 
-        playerInput.Player.Run.started += base.onRunInput;
-        playerInput.Player.Run.canceled += base.onRunInput;
+        playerInput.Player.Run.started += onRunInput;
+        playerInput.Player.Run.canceled += onRunInput;
 
         playerInput.Player.Aim.started += onAimInput;
         playerInput.Player.Aim.canceled += aimController.DetatchArrow;
@@ -43,14 +42,12 @@ public class PlayerController : VirtualController
     }
 
     #region Input Handling
-    public void onCameraInput(InputAction.CallbackContext context) {
+    void onCameraInput(InputAction.CallbackContext context) {
         Vector2 cameraMovementInput = context.ReadValue<Vector2>();
-        CameraMovement.x = cameraMovementInput.x;
-        CameraMovement.y = cameraMovementInput.y;
-        CameraMovement = CameraMovement.normalized;
+        base.onCameraInput(cameraMovementInput);
     }
     
-    public void onAimInput(InputAction.CallbackContext context) {
+    void onAimInput(InputAction.CallbackContext context) {
         isAimPressed = context.ReadValueAsButton();
 
         if (context.canceled) {
@@ -58,10 +55,21 @@ public class PlayerController : VirtualController
         }
     }
 
-    public void onFireInput(InputAction.CallbackContext context) {
-        // isFirePressed = context.ReadValueAsButton();
+    void onMovementInput(InputAction.CallbackContext context) {
+        Vector2 currentMovementInput = context.ReadValue<Vector2>();
+        base.onMovementInput(currentMovementInput);
+    }
+
+    void onRunInput(InputAction.CallbackContext context) {
+        base.onRunInput(context.ReadValueAsButton());
+    }
+
+    void onJumpInput(InputAction.CallbackContext context) {
+        base.onJumpInput(context.ReadValueAsButton());
+    }
+
+    void onFireInput(InputAction.CallbackContext context) {
         if ((context.interaction is TapInteraction) && !FireOnCooldown && aimController.IsFullyDrawn) {
-            // aimController.FireArrow();
             isFireTapped = true;
             StartCoroutine(FireCooldownTimer());
         }

@@ -5,26 +5,32 @@ using UnityEngine.InputSystem;
 
 public abstract class VirtualController : MonoBehaviour
 {
+    public Vector3 CameraMovement;
     public Vector3 CurrentMovement;
+
     public float MovementMultiplier;
     public bool isMovementPressed;
     public bool isRunPressed;
     public bool isJumpPressed;
 
-    public void onMovementInput(InputAction.CallbackContext context) {
-        Vector2 currentMovementInput = context.ReadValue<Vector2>();
+    public void onCameraInput(Vector2 cameraMovementInput) {
+        CameraMovement.x = cameraMovementInput.x;
+        CameraMovement.y = cameraMovementInput.y;
+        CameraMovement = CameraMovement.normalized;
+    }
+    public void onMovementInput(Vector2 currentMovementInput) {
         CurrentMovement.x = currentMovementInput.x;
         CurrentMovement.z = currentMovementInput.y;
 
         isMovementPressed = (CurrentMovement.x != 0 || CurrentMovement.z != 0);
     }
 
-    public void onRunInput(InputAction.CallbackContext context) {
-        isRunPressed = context.ReadValueAsButton();
+    public void onRunInput(bool runInput) {
+        isRunPressed = runInput;
         CurrentMovement = CurrentMovement * ((isRunPressed) ? MovementMultiplier : 1/MovementMultiplier);
     }
     
-    public void onJumpInput(InputAction.CallbackContext context) {
-        isJumpPressed = context.ReadValueAsButton();
+    public void onJumpInput(bool jumpInput) {
+        isJumpPressed = jumpInput;
     }
 }
