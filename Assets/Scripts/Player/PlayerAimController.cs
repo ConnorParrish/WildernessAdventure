@@ -86,7 +86,6 @@ public class PlayerAimController : MonoBehaviour
         } else {
             var arrowTarget = transform.TransformPoint(0,0,500);
             spawnedArrow.transform.LookAt(arrowTarget);
-
         }
 
         
@@ -107,7 +106,8 @@ public class PlayerAimController : MonoBehaviour
             if (!AimCamera.activeInHierarchy) {
                 MoveCamera.SetActive(false);
                 AimCamera.SetActive(true);
-                cameraController.CameraSwivelSensitivityModifier = aimSwivelMultiplier;
+                var multiplier = aimSwivelMultiplier * ((playerController.ControlScheme.name == "Gamepad") ? .05f : 1f);
+                cameraController.CameraSwivelSensitivityModifier = multiplier;
             }
         } else if(!playerController.isAimPressed && !MoveCamera.activeInHierarchy){
             Crosshair.SetActive(false);

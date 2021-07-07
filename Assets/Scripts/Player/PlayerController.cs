@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
-
+using UnityEngine.InputSystem.Users;
 
 public class PlayerController : VirtualController
 {
+    public InputControlScheme ControlScheme;
     public bool isAimPressed;
     public bool isFireTapped;
+    public bool isTargetAiTapped;
     public float FireCooldown;
     public bool FireOnCooldown = false;
 
@@ -38,7 +40,9 @@ public class PlayerController : VirtualController
 
         playerInput.Player.Fire.performed += onFireInput;
 
-
+        playerInput.Player.TargetAI.started += onTargetAi;
+        playerInput.Player.TargetAI.canceled += onTargetAi;
+        playerInput.Player.TargetAI.performed += onTargetAi;
     }
 
     #region Input Handling
@@ -74,6 +78,12 @@ public class PlayerController : VirtualController
             StartCoroutine(FireCooldownTimer());
         }
     }
+
+    void onTargetAi(InputAction.CallbackContext context) {
+        isTargetAiTapped = context.ReadValueAsButton();
+    }
+
+    
     #endregion
 
     #region Coroutines
@@ -91,11 +101,20 @@ public class PlayerController : VirtualController
     #endregion
 
     // Doesn't work?
-    private void OnMouseDown() {
-        Cursor.lockState = CursorLockMode.Confined;
+    void OnMouseDown() {
+        Debug.Log("Mouse clicked!");
+        // Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnEnable() {
         playerInput.Player.Enable();
+        InputUser.onChange += onInputDeviceChange;
+    }
+
+    void onInputDeviceChange(InputUser user, InputUserChange change, InputDevice device) {
+        if (change == InputUserChange.ControlSchemeChanged) {
+            ControlScheme = user.controlScheme.Value;
+        }
     }
 }

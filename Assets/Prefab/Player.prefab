@@ -1890,6 +1890,7 @@ GameObject:
   - component: {fileID: 6076289544906213659}
   - component: {fileID: 611351404}
   - component: {fileID: 6076289544906213658}
+  - component: {fileID: 5544108261151211341}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1979,12 +1980,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 205777f2086a2c84c83cd0114f2acf90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraMovement: {x: 0, y: 0, z: 0}
   CurrentMovement: {x: 0, y: 0, z: 0}
   MovementMultiplier: 0
   isMovementPressed: 0
   isRunPressed: 0
   isJumpPressed: 0
-  CameraMovement: {x: 0, y: 0, z: 0}
   isAimPressed: 0
   isFireTapped: 0
   FireCooldown: 0
@@ -2056,6 +2057,18 @@ MonoBehaviour:
   TurnSmoothVelocity: 0
   TurnSnapTime: 0.025
   TurnSnapVelocity: 0
+--- !u!114 &5544108261151211341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6076289544906213661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10c7e373406ded42a46148b01d77b8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6180187420050807069
 GameObject:
   m_ObjectHideFlags: 0

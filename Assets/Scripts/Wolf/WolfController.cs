@@ -15,7 +15,6 @@ public class WolfController : VirtualController
     void Awake() {
         navMeshAgent = GetComponentInChildren<NavMeshAgent>();
         if (NavTarget) {
-            navMeshAgent.SetDestination(NavTarget.transform.position);
         }
     }
 
@@ -29,7 +28,12 @@ public class WolfController : VirtualController
     }
 
     private void FixedUpdate() {
+
         if (NavTarget) {
+            navMeshAgent.SetDestination(NavTarget.transform.position);
+            // if (!navMeshAgent.destination){
+                // navMeshAgent.SetDestination(NavTarget.transform.position);
+            // }
             Vector3 lookRotation = navMeshAgent.steeringTarget - transform.position;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookRotation), ExtraRotationSpeed*Time.deltaTime);
 

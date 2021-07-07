@@ -77,7 +77,7 @@ public class ThirdPersonMovement : MonoBehaviour
         // cameraController.AttachToParent();
         cameraController.FollowTarget.transform.SetParent(gameObject.transform);
 
-        moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+        // moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
         if (currentMovement.magnitude >= 0.1f || !characterController.isGrounded) {
             var movementSpeed = Speed;
             if (playerController.isRunPressed) {
